@@ -19,7 +19,7 @@ public class CreateSwitches : MonoBehaviour {
 						offset = 2.5f;
 					else
 						offset = 0.0f;
-					Instantiate (s, new Vector3 (i*1.2f + p*(float)k*1.2f + offset, levelDisplacement + l*levelDisplacement, 0.0f), Quaternion.identity);
+//					Instantiate (s, new Vector3 (i*1.2f + p*(float)k*1.2f + offset, levelDisplacement + l*levelDisplacement, 0.0f), Quaternion.identity);
 				}
 			}
 		}

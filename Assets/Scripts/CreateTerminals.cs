@@ -11,8 +11,8 @@ public class CreateTerminals : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		for (int i = 0; i < k*pods*k; i++)
-			Instantiate(term, new Vector3(i * 1.0f, 0.5f, 0.0f), Quaternion.identity);
+//		for (int i = 0; i < k*pods*k; i++)
+//			Instantiate(term, new Vector3(i * 1.0f, 0.5f, 0.0f), Quaternion.identity);
 	}
 	
 	// Update is called once per frame

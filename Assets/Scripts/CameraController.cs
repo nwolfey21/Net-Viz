@@ -19,8 +19,8 @@ public class CameraController : MonoBehaviour {
 		float rotateHorizontal = Input.GetAxis ("RotateHorizontal");
 		float rotateVertical = Input.GetAxis ("RotateVertical");
 
-		print ("horizontal:" + moveHorizontal + " vertical:" + moveVertical);
-		print ("rotateHorizontal:" + rotateHorizontal + " rotateVertical:" + rotateVertical);
+//		print ("horizontal:" + moveHorizontal + " vertical:" + moveVertical);
+//		print ("rotateHorizontal:" + rotateHorizontal + " rotateVertical:" + rotateVertical);
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 

@@ -32,15 +32,15 @@ public class PlayerController : MonoBehaviour {
 		float rotateHorizontal = Input.GetAxis ("RotateHorizontal");
 		float rotateVertical = Input.GetAxis ("RotateVertical");
 
-		print ("horizontal:" + moveHorizontal + " vertical:" + moveVertical);
-		print ("rotateHorizontal:" + rotateHorizontal + " rotateVertical:" + rotateVertical);
+//		print ("horizontal:" + moveHorizontal + " vertical:" + moveVertical);
+//		print ("rotateHorizontal:" + rotateHorizontal + " rotateVertical:" + rotateVertical);
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 		Vector3 position = transform.position;
 
 //		rb.AddForce (movement * speed);
 		rb.MovePosition (position + movement * step);
 		Quaternion deltaRotation = Quaternion.Euler(0.0f, rotateHorizontal * rotateSpeed * Time.deltaTime, 0.0f);
-		print ("deltaRotation:" + deltaRotation);
+//		print ("deltaRotation:" + deltaRotation);
 		rb.MoveRotation(rb.rotation * deltaRotation);
 		transform.Rotate(rotateVertical*rotateSpeed*Time.deltaTime, 0.0f, 0.0f);
 		transform.Rotate(0.0f, rotateHorizontal*rotateSpeed*Time.deltaTime, 0.0f);
