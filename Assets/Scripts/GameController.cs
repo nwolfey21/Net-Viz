@@ -64,29 +64,52 @@ public class GameController : MonoBehaviour {
 		statusText.text = "Loading Topology";
 
 		int scale = 2;
+		int idx = 0;
 
+		//Create Nodes
         for (int i = 0; i < numNodes; i++) {
             for (int j = 0; j < numNodes; j++) {
 				float x = i * 3;
-                float y = 1;
+				float y = j * 2 + 1;
                 float z = 1;
 
-                Node nodeObject = Instantiate(nodePrefab, new Vector3(x, y, z), Quaternion.identity) as Node;
-                nodeObject.nodeText.text = string.Format("node {0:d}", i);
+				idx = i * numNodes + j;
 
-                nodeObject.id = i++.ToString();
+                Node nodeObject = Instantiate(nodePrefab, new Vector3(x, y, z), Quaternion.identity) as Node;
+				nodeObject.nodeText.text = string.Format("node {0:d}", i * numNodes + j);
+
+                nodeObject.id = idx++.ToString();
+				//print ("node id:" + nodeObject.id);
                 nodes.Add(nodeObject.id, nodeObject);
 
                 statusText.text = "Loading Topology: Node " + nodeObject.id;
                 nodeCount++;
                 nodeCountText.text = "Nodes: " + nodeCount;
 
+				//Create Links
+				if(nodeCount > 1){
+					Link linkObject = Instantiate(linkPrefab, new Vector3(0,0,0), Quaternion.identity) as Link;
+					linkObject.id = nodeObject.id;
+					linkObject.sourceId = nodeObject.id;
+					int target = idx - 2;
+					linkObject.targetId = target.ToString();
+					linkObject.status = "up";
+					links.Add(linkObject.id, linkObject);
+
+					statusText.text = "Loading Topology: Edge " + linkObject.id;
+					linkCount++;
+					linkCountText.text = "Edges: " + linkCount;
+				}
+
                 //every 100 cycles return control to unity
                 if (j % 100 == 0)
                     yield return true;
             }
         }
-				
+
+		//map node edges
+		MapLinkNodes();
+		statusText.text = "Status: Chillin";
 
 /*		XmlElement root = xmlDoc.FirstChild as XmlElement;
 		for(int i=0; i<root.ChildNodes.Count; i++){
@@ -144,6 +167,7 @@ public class GameController : MonoBehaviour {
 			Link link = links[key] as Link;
 			link.source = nodes[link.sourceId] as Node;
 			link.target = nodes[link.targetId] as Node;
+			print ("link.sourceId:" + link.sourceId + " link.targetId:" + link.targetId + " link.source:" + link.source + " link.target:" + link.target);
 		}
 	}
 }

@@ -40,7 +40,7 @@ public class Link : MonoBehaviour {
 	void Update () {
 		if(source && target && !loaded){
 			//draw links as full duplex, half in each direction
-			Vector3 m = (target.transform.position - source.transform.position)/2 + source.transform.position;
+			Vector3 m = (target.transform.position - source.transform.position) + source.transform.position;
 			lineRenderer.SetPosition(0, source.transform.position);
 			lineRenderer.SetPosition(1, m);
 
