@@ -167,7 +167,7 @@ public class GameController : MonoBehaviour {
 			Link link = links[key] as Link;
 			link.source = nodes[link.sourceId] as Node;
 			link.target = nodes[link.targetId] as Node;
-			print ("link.sourceId:" + link.sourceId + " link.targetId:" + link.targetId + " link.source:" + link.source + " link.target:" + link.target);
+			//print ("link.sourceId:" + link.sourceId + " link.targetId:" + link.targetId + " link.source:" + link.source + " link.target:" + link.target);
 		}
 	}
 }
