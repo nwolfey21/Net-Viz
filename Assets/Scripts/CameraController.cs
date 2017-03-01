@@ -30,7 +30,7 @@ public class CameraController : MonoBehaviour {
 		if (Input.GetButton ("Sink"))
 			elevation = (-1.0f) * elevationSpeed;
 
-		print ("elevation:" + elevation + " ");
+//		print ("elevation:" + elevation + " ");
 
 //		print ("horizontal:" + moveHorizontal + " vertical:" + moveVertical);
 //		print ("rotateHorizontal:" + rotateHorizontal + " rotateVertical:" + rotateVertical);

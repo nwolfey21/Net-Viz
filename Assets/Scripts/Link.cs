@@ -21,7 +21,7 @@ public class Link : MonoBehaviour {
 		//color link according to status
 		Color c;
 		if (status == "Up")
-			c = Color.gray;
+			c = Color.blue;
 		else
 			c = Color.red;
 		c.a = 0.5f;

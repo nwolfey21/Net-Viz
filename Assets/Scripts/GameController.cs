@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
+using System.Xml;
 
 public class GameController : MonoBehaviour {
 
@@ -31,7 +33,8 @@ public class GameController : MonoBehaviour {
 //        statusText = GameObject.Find("StatusText").GetComponent<GUIText>();
         statusText.text = "";
 
-        StartCoroutine(LoadLayout());
+//        StartCoroutine(LoadLayoutNew());
+		StartCoroutine(LoadLayout());
     }
 	
 	// Update is called once per frame
@@ -40,27 +43,9 @@ public class GameController : MonoBehaviour {
 	}
 
 	//Method for loading the GraphML layout file
-	private IEnumerator LoadLayout(){
+	private IEnumerator LoadLayoutNew(){
         int numNodes = 10;
-/*		string sourceFile = Application.dataPath + "/Data/layout.xml";
-		statusText.text = "Loading file: " + sourceFile;
 
-		//determine which platform to load for
-		string xml = null;
-		if(Application.isWebPlayer){
-			WWW www = new WWW (sourceFile);
-			yield return www;
-			xml = www.text;
-		}
-		else{
-			StreamReader sr = new StreamReader(sourceFile);
-			xml = sr.ReadToEnd();
-			sr.Close();
-		}
-
-		XmlDocument xmlDoc = new XmlDocument();
-		xmlDoc.LoadXml(xml);
-*/
 		statusText.text = "Loading Topology";
 
 		int scale = 2;
@@ -110,8 +95,37 @@ public class GameController : MonoBehaviour {
 		//map node edges
 		MapLinkNodes();
 		statusText.text = "Status: Chillin";
+	}
 
-/*		XmlElement root = xmlDoc.FirstChild as XmlElement;
+	//Method for loading the GraphML layout file
+	private IEnumerator LoadLayout(){
+		print ("application.datapath:" + Application.dataPath);
+		string sourceFile = Application.dataPath + "/Data/layout.xml";
+		statusText.text = "Loading file: " + sourceFile;
+
+		int scale = 25;
+
+		//determine which platform to load for
+		string xml = null;
+		if(Application.isWebPlayer){
+			WWW www = new WWW (sourceFile);
+			yield return www;
+			xml = www.text;
+		}
+		else{
+			StreamReader sr = new StreamReader(sourceFile);
+			xml = sr.ReadToEnd();
+			sr.Close();
+		}
+
+		XmlDocument xmlDoc = new XmlDocument();
+		xmlDoc.LoadXml(xml);
+
+		//map node edges
+		MapLinkNodes();
+		statusText.text = "Status: Chillin";
+
+		XmlElement root = xmlDoc.FirstChild as XmlElement;
 		for(int i=0; i<root.ChildNodes.Count; i++){
 			XmlElement xmlGraph = root.ChildNodes[i] as XmlElement;
 
@@ -159,7 +173,7 @@ public class GameController : MonoBehaviour {
 		MapLinkNodes();
 
 		statusText.text = "";
-*/	}
+	}
 
 	//Method for mapping links to nodes
 	private void MapLinkNodes(){
