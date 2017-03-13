@@ -12,6 +12,10 @@ public class Link : MonoBehaviour {
 	public string status;
 	public bool loaded = false;
 
+	private Color linkColor;
+	private int src;
+	private int dst;
+
 	private LineRenderer lineRenderer;
 
 	// Use this for initialization
@@ -29,11 +33,15 @@ public class Link : MonoBehaviour {
 		//draw line
 		lineRenderer.material = new Material (Shader.Find("Self-Illumin/Diffuse"));
 		lineRenderer.material.SetColor ("_Color", c);
-		lineRenderer.startWidth = 0.3f;
-		lineRenderer.endWidth = 0.3f;
+		lineRenderer.startWidth = 0.1f;
+		lineRenderer.endWidth = 0.1f;
 		lineRenderer.numPositions = 2;
 		lineRenderer.SetPosition(0, new Vector3(0,0,0));
 		lineRenderer.SetPosition(1, new Vector3(1,0,0));
+
+		string[] tmp = sourceId.Split('_'); 
+		src = int.Parse (tmp [1]);
+//		print ("src: " + src);
 	}
 
 	// Update is called once per frame
@@ -45,6 +53,21 @@ public class Link : MonoBehaviour {
 			lineRenderer.SetPosition(1, m);
 
 			loaded = true;
+		}
+		if (loaded == true && src < 100) {
+			linkColor.r += 1.0f / 255.0f;
+			linkColor.g += 2.0f / 255.0f;
+			linkColor.b += 3.0f / 255.0f;
+			if (linkColor.r > 1.0f)
+				linkColor.r = 0.0f;
+			if (linkColor.g > 1.0f)
+				linkColor.g = 0.0f;
+			if (linkColor.g > 1.0f)
+				linkColor.g = 0.0f;
+			
+			print (" r" + linkColor.r);
+//			lineRenderer.material.SetColor (linkColor);
+			lineRenderer.material.color = linkColor;
 		}
 	}
 }
