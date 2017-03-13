@@ -13,6 +13,25 @@ public class GameController : MonoBehaviour {
 	public Text nodeCountText;
 	public Text linkCountText;
 
+	private int scale = 10;
+	private float dr = 3.0f;
+	private float dh = 20.0f;
+
+	//Parameters for k36 3level fat tree
+	private int numTerminals = 3564;
+	private int numLevel2 = 108;
+	private int numLevel1 = 198;
+	private int numLevel0 = 198;
+	private int numLevels = 3;
+
+
+	//Parameters for k8 3level fat tree
+/*	private int numTerminals = 48;
+	private int numLevel2 = 8;
+	private int numLevel1 = 12;
+	private int numLevel0 = 12;
+	private int numLevels = 3;
+*/
 	private Hashtable nodes;
 	private Hashtable links;
 	private int nodeCount = 0;
@@ -48,7 +67,6 @@ public class GameController : MonoBehaviour {
 
 		statusText.text = "Loading Topology";
 
-		int scale = 2;
 		int idx = 0;
 
 		//Create Nodes
@@ -99,11 +117,12 @@ public class GameController : MonoBehaviour {
 
 	//Method for loading the GraphML layout file
 	private IEnumerator LoadLayout(){
-		print ("application.datapath:" + Application.dataPath);
-		string sourceFile = Application.dataPath + "/Data/layout.xml";
+//		print ("application.datapath:" + Application.dataPath);
+		string sourceFile = Application.dataPath + "/Data/fat-tree.xml";
+//		string sourceFile = Application.dataPath + "/Data/layout.xml";
 		statusText.text = "Loading file: " + sourceFile;
 
-		int scale = 25;
+//		int scale = 25;
 
 		//determine which platform to load for
 		string xml = null;
@@ -132,12 +151,52 @@ public class GameController : MonoBehaviour {
 			for(int j=0; j<xmlGraph.ChildNodes.Count; j++){
 				XmlElement xmlNode = xmlGraph.ChildNodes[j] as XmlElement;
 
+				//float level = -1.0f;
+				float dTheta = 0.0f;
+				float theta = 0.0f;
+				int id = 0;
+				//int idx = 0;
 				//create nodes
-				if(xmlNode.Name == "node"){
-					float x = float.Parse(xmlNode.Attributes["x"].Value)/scale;
+				if(xmlNode.Name == "lp"){
+/*					float x = float.Parse(xmlNode.Attributes["x"].Value)/scale;
 					float y = float.Parse (xmlNode.Attributes["y"].Value)/scale;
 					float z = float.Parse(xmlNode.Attributes["z"].Value)/scale;
+*/
+					//float level = -1.0f;
 
+//					print ("here");
+					int level = int.Parse(xmlNode.Attributes["level"].Value);
+//					print ("level" + level);
+					int idx = int.Parse(xmlNode.Attributes["idx"].Value);
+					if (level == 10) {
+						dTheta = (2.0f * Mathf.PI) / numTerminals;
+						id = idx;
+					}
+					if (level == 0) {
+						dTheta = (2.0f * Mathf.PI) / numLevel0;
+						id = idx;
+					}
+					if (level == 1) {
+						dTheta = (2.0f * Mathf.PI) / numLevel1;
+						id = idx - numLevel0;
+					}
+					if (level == 2) {
+						dTheta = (2.0f * Mathf.PI) / numLevel2;
+						id = idx - numLevel0 - numLevel1;
+					}
+
+					float x, y, z;
+					theta = id * dTheta;
+					if (level < 3) {
+						x = (float)(numLevels - level) * scale * dr * Mathf.Cos (theta);
+						z = (float)(numLevels - level) * scale * dr * Mathf.Sin (theta);
+						y = (float)(level + 1.0f) * dh;
+					}else{
+						x = ((float)numLevels+1.0f) * scale * dr * Mathf.Cos (theta);
+						z = ((float)numLevels+1.0f) * scale * dr * Mathf.Sin (theta);
+						y = 0.0f;
+					}
+							
 					Node nodeObject = Instantiate(nodePrefab, new Vector3(x,y,z), Quaternion.identity) as Node;
 					nodeObject.nodeText.text = xmlNode.Attributes["name"].Value;
 
