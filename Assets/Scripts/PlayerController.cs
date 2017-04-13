@@ -6,9 +6,11 @@ public class PlayerController : MonoBehaviour {
 	public float speed;
 	public float step;
 	public float rotateSpeed;
+	public float elevationSpeed;
 	public Mesh objectToCreate;
 
 	private Rigidbody rb;
+	private float elevation;
 
 	void Start ()
 	{
@@ -27,22 +29,34 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
+		// Sideways movement input
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
+
+		// Forward/Backward movement input
 		float rotateHorizontal = Input.GetAxis ("RotateHorizontal");
 		float rotateVertical = Input.GetAxis ("RotateVertical");
 
-//		print ("horizontal:" + moveHorizontal + " vertical:" + moveVertical);
-//		print ("rotateHorizontal:" + rotateHorizontal + " rotateVertical:" + rotateVertical);
-		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
-		Vector3 position = transform.position;
+		// Elevation input
+		if (Input.GetButton ("Elevate"))
+			elevation = elevationSpeed;
+		if (Input.GetButton ("Sink"))
+			elevation = (-1.0f) * elevationSpeed;
 
-//		rb.AddForce (movement * speed);
-		rb.MovePosition (position + movement * step);
-		Quaternion deltaRotation = Quaternion.Euler(0.0f, rotateHorizontal * rotateSpeed * Time.deltaTime, 0.0f);
+		// Position Update
+		Vector3 movement = new Vector3 (0.0f, elevation, 0.0f);
+		transform.position = transform.position + Camera.main.transform.forward * moveVertical * step;
+		transform.position = transform.position + Camera.main.transform.right * moveHorizontal * step;
+		transform.position = transform.position + movement * step;
+
+		// Rotation Update
+/*		Quaternion deltaRotation = Quaternion.Euler(0.0f, rotateHorizontal * rotateSpeed * Time.deltaTime, 0.0f);
 //		print ("deltaRotation:" + deltaRotation);
 		rb.MoveRotation(rb.rotation * deltaRotation);
 		transform.Rotate(rotateVertical*rotateSpeed*Time.deltaTime, 0.0f, 0.0f);
 		transform.Rotate(0.0f, rotateHorizontal*rotateSpeed*Time.deltaTime, 0.0f);
+*/
+		transform.Rotate(rotateVertical*speed*Time.deltaTime, 0.0f, 0.0f);
+		transform.Rotate(0.0f, rotateHorizontal*speed*Time.deltaTime, 0.0f);
 	}
 }

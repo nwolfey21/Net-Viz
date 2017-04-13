@@ -7,7 +7,6 @@ public class CameraController : MonoBehaviour {
 	public float speed;
 	public float step;
 	public float elevationSpeed;
-
 	public float lookSpeed = 4.0F;
 	public float tiltAngle = 30.0F;
 
@@ -35,17 +34,20 @@ public class CameraController : MonoBehaviour {
 //		print ("horizontal:" + moveHorizontal + " vertical:" + moveVertical);
 //		print ("rotateHorizontal:" + rotateHorizontal + " rotateVertical:" + rotateVertical);
 
-		Vector3 movement = new Vector3 (moveHorizontal, elevation, moveVertical);
-
-		//		rb.AddForce (movement * speed);
+		// Position Update
+		Vector3 movement = new Vector3 (0.0f, elevation, 0.0f);
+		transform.position = transform.position + Camera.main.transform.forward * moveVertical * step;
+		transform.position = transform.position + Camera.main.transform.right * moveHorizontal * step;
 		transform.position = transform.position + movement * step;
-//		transform.Rotate(rotateVertical*speed*Time.deltaTime, 0.0f, 0.0f);
-//		transform.Rotate(0.0f, rotateHorizontal*speed*Time.deltaTime, 0.0f);
+
+		// Rotation Update
+		transform.Rotate(rotateVertical*speed*Time.deltaTime, 0.0f, 0.0f);
+		transform.Rotate(0.0f, rotateHorizontal*speed*Time.deltaTime, 0.0f);
 
 		float tiltAroundZ = rotateHorizontal * tiltAngle;
 		float tiltAroundX = rotateVertical * tiltAngle;
-		Quaternion target = Quaternion.Euler(tiltAroundX, tiltAroundZ, 0);
-		transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * lookSpeed);
+//		Quaternion target = Quaternion.Euler(tiltAroundX, tiltAroundZ, 0);
+//		transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * lookSpeed);
 
 		elevation = 0.0f;
 	}
