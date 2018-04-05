@@ -11,16 +11,17 @@ public class Link : MonoBehaviour {
 	public string targetId;
 	public string status;
 	public bool loaded = false;
+	public bool colorChange = false;
 
 	private Color linkColor;
 	private int src;
 	private int dst;
 
-	private LineRenderer lineRenderer;
+	private LineRenderer lineRend;
 
 	// Use this for initialization
 	void Start () {
-		lineRenderer = gameObject.AddComponent<LineRenderer>();
+		lineRend = gameObject.GetComponent<LineRenderer>();
 
 		//color link according to status
 		Color c;
@@ -28,19 +29,22 @@ public class Link : MonoBehaviour {
 			c = Color.blue;
 		else
 			c = Color.red;
-		c.a = 0.5f;
+		c.a = 0.001f;
 
 		//draw line
-		lineRenderer.material = new Material (Shader.Find("Self-Illumin/Diffuse"));
-		lineRenderer.material.SetColor ("_Color", c);
-		lineRenderer.startWidth = 0.1f;
-		lineRenderer.endWidth = 0.1f;
-		lineRenderer.numPositions = 2;
-		lineRenderer.SetPosition(0, new Vector3(0,0,0));
-		lineRenderer.SetPosition(1, new Vector3(1,0,0));
+		//lineRend.material = new Material (Shader.Find("Self-Illumin/Diffuse"));
+		//lineRend.material.SetColor ("_Color", c);
+		lineRend.startWidth = 0.05f;
+		lineRend.endWidth = 0.05f;
+//		lineRend.positionCount = 2;
+		lineRend.SetPosition(0, new Vector3(0,0,0));
+		lineRend.SetPosition(1, new Vector3(1,0,0));
 
-		string[] tmp = sourceId.Split('_'); 
-		src = int.Parse (tmp [1]);
+        //If layout = 0
+        //string[] tmp = sourceId.Split('_'); 
+        //src = int.Parse (tmp [1]);
+        //If layout = 1
+        src = int.Parse(sourceId);
 //		print ("src: " + src);
 	}
 
@@ -49,13 +53,13 @@ public class Link : MonoBehaviour {
 		if(source && target && !loaded){
 			//draw links as full duplex, half in each direction
 			Vector3 m = (target.transform.position - source.transform.position) + source.transform.position;
-			lineRenderer.SetPosition(0, source.transform.position);
-			lineRenderer.SetPosition(1, m);
+			lineRend.SetPosition(0, source.transform.position);
+			lineRend.SetPosition(1, m);
 
 			loaded = true;
 		}
-		if (loaded == true && src < 100) {
-			linkColor.r += 1.0f / 255.0f;
+		//if (loaded == true && colorChange == true/*&& src < 4000*/) {
+			/*linkColor.r += 1.0f / 255.0f;
 			linkColor.g += 2.0f / 255.0f;
 			linkColor.b += 3.0f / 255.0f;
 			if (linkColor.r > 1.0f)
@@ -65,9 +69,9 @@ public class Link : MonoBehaviour {
 			if (linkColor.g > 1.0f)
 				linkColor.g = 0.0f;
 			
-			print (" r" + linkColor.r);
-//			lineRenderer.material.SetColor (linkColor);
-			lineRenderer.material.color = linkColor;
-		}
+//			print (" r" + linkColor.r);
+//			lineRend.material.SetColor (linkColor);
+			lineRend.material.color = linkColor;*/
+		//}
 	}
 }

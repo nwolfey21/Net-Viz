@@ -41,8 +41,13 @@ public class CameraController : MonoBehaviour {
 		transform.position = transform.position + movement * step;
 
 		// Rotation Update
-		transform.Rotate(rotateVertical*speed*Time.deltaTime, 0.0f, 0.0f);
-		transform.Rotate(0.0f, rotateHorizontal*speed*Time.deltaTime, 0.0f);
+//		transform.Rotate(rotateVertical*speed*Time.deltaTime, 0.0f, 0.0f, Space.World);
+//		transform.Rotate(0.0f, rotateHorizontal*speed*Time.deltaTime, 0.0f, Space.World);
+//		transform.Rotate(rotateVertical*speed*Time.deltaTime, 0.0f, 0.0f, Space.World);
+//		transform.Rotate(0.0f, rotateHorizontal*speed*Time.deltaTime, 0.0f, Space.World);
+//		Camera.main.transform.RotateAround(transform.position, new Vector3(1.0f, 0.0f, 0.0f), rotateVertical * speed * Time.deltaTime);
+//		Camera.main.transform.RotateAround(transform.position, new Vector3(0.0f, 1.0f, 0.0f), rotateHorizontal * speed * Time.deltaTime);
+		transform.Rotate (new Vector3 (rotateVertical, rotateHorizontal, 0.0f) * speed * Time.deltaTime);
 
 		float tiltAroundZ = rotateHorizontal * tiltAngle;
 		float tiltAroundX = rotateVertical * tiltAngle;
